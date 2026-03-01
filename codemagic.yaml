@@ -3,30 +3,9 @@ workflows:
     name: Android Release Build
     environment:
       flutter: stable
+
     scripts:
       - flutter pub get
-
-      # Tạo keystore trực tiếp trên Codemagic
-      - |
-        keytool -genkey -v \
-        -keystore upload-keystore.jks \
-        -storepass Kiem1000 \
-        -keypass Kiem1000 \
-        -keyalg RSA \
-        -keysize 2048 \
-        -validity 10000 \
-        -alias teacherwheel \
-        -dname "CN=VongQuayGiaoVien, OU=Dev, O=Dev, L=HN, S=HN, C=VN"
-
-      # Tạo key.properties
-      - |
-        cat <<EOF > android/key.properties
-        storePassword=Kiem1000
-        keyPassword=Kiem1000
-        keyAlias=upload
-        storeFile=../upload-keystore.jks
-        EOF
-
       - flutter build appbundle --release
 
     artifacts:
